@@ -12,8 +12,8 @@ public class App {
 		
 		int myAge = 25; // 왼쪽과 오른쪽 타입 항상 동일.
 		//myAge = "스물다섯"; // 컴파일 에러.
-		String 내나이 = "스물다섯";
-		내나이 = "28"; // 문자열 28.
+//		String 내나이 = "스물다섯";
+//		내나이 = "28"; // 문자열 28.
 		
 		int result = myAge + 30;
 		System.out.println(myAge + "값과 30을 더하면 "+ result + "입니다");
