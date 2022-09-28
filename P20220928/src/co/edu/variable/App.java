@@ -54,5 +54,8 @@ public class App {
 				break;
 		}
 		System.out.println("100초과=> " + sum);
+		
+		System.out.println("정상커밋완료");
 	}
+
 }
