@@ -20,6 +20,8 @@ public class AppMain2 {
 		System.out.println(s1.getAge()); // int = 0;
 		System.out.println(s1.showInfo());
 		
+		System.out.println("여기=>>>" + s1);
+		
 		Student s2 = new Student();
 		s2.setstudName("김민숙");
 		s2.setStudNo ("111-222");

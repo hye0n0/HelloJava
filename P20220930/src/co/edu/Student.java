@@ -1,5 +1,7 @@
 package co.edu;
 
+import java.util.Arrays;
+
 // Object: 학생. Class: Student
 // 속성 학번, 이름, 전공
 // 공부한다, 게임을 한다, 잠을 잔다.
@@ -114,4 +116,12 @@ public class Student {
 	void sleep() {
 		System.out.println("잠을 잔다");
 	}
+
+	@Override
+	public String toString() {
+		return "Student [studNo=" + studNo + ", studName=" + studName + ", major=" + major + ", age=" + age
+				+ ", hobbies=" + Arrays.toString(hobbies) + "]";
+	}
+	
+	
 }
