@@ -25,6 +25,7 @@ public class BooksDAO {
 		for(int i=0; i<myBooks.length; i++) {
 			if(myBooks[i] == null) {
 				myBooks[i] = book;
+				System.out.println("등록되었습니다");
 				break;
 			}
 		}
@@ -70,30 +71,39 @@ public class BooksDAO {
 						bookId = scn.nextInt();
 						scn.nextLine();
 						myBooks[i].setBookId(bookId);
-						System.out.print("수정되었습니다");
+						System.out.println("수정되었습니다");
+						check = true;
 						break;
 					case 2:
 						System.out.print("수정할 책제목을 입력>> ");
+						scn.nextLine();
 						String title = scn.nextLine();
 						myBooks[i].setTitle(title);
-						System.out.print("수정되었습니다");
+						System.out.println("수정되었습니다");
+						check = true;
 						break;
 					case 3:
 						System.out.print("수정할 책저자를 입력>> ");
+						scn.nextLine();
 						String author = scn.nextLine();
 						myBooks[i].setAuthor(author);
-						System.out.print("수정되었습니다");
+						System.out.println("수정되었습니다");
+						check = true;
 						break;
 					case 4:
 						System.out.print("수정할 책출판사를 입력>> ");
+						scn.nextLine();
 						String publisher = scn.nextLine();
 						myBooks[i].setPublisher(publisher);
-						System.out.print("수정되었습니다");
+						System.out.println("수정되었습니다");
+						check = true;
 						break;
 					case 5:
+						check = true;
 						break;
 					default:
 						System.out.println("잘못된 입력입니다");
+						check = true;
 				}
 			}
 		}
