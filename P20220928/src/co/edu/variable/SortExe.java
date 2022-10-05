@@ -27,11 +27,11 @@ public class SortExe {
 //		}
 //		
 		for (int j=1; j<(numAry.length); j++) {
-			for(int i=0; i<(numAry.length - j); i++) {  // i:0, i:1, i:2
+			for(int i=0; i<numAry.length-1; i++) {  // i:0, i:1, i:2
 				if(numAry[i] > numAry[i+1]) {
 					int temp = numAry[i];  // 순서가 먼저 있는 값을 temp.
 					numAry[i] = numAry[i+1];  
-					numAry[i+1] = temp;	
+					numAry[i+1] = temp;
 				}
 			}
 		}
