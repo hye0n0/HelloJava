@@ -46,7 +46,8 @@ public class EmployeeArray implements EmployeeService{
 		String result = null;
 		for (int i=0; i<idx; i++) {
 			if(list[i].getEmployeeId() == employeeId) {
-				result = list[i].getName();
+				result =
+						list[i].getName();
 				break;
 			}
 		}
