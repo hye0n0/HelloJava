@@ -93,7 +93,7 @@ public class FriendApp {
 		scn.close();
 	}
 	
-	public static int readInt(String msg) throws NumberFormatException {
+	public static int readInt(String msg) {
 		Scanner scn = new Scanner(System.in);
 		int result = -1;
 		while (true) {
