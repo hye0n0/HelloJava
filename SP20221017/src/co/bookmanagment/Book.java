@@ -11,7 +11,7 @@ public class Book {
 	private String rentUserId;
 	
 	public Book(int bookId, String bookName, String bookWriter, String bookPublisher, String renting, String returnDate,
-			String creationDate) {
+			String creationDate,String rentUserId) {
 		this.bookId = bookId;
 		this.bookName = bookName;
 		this.bookWriter = bookWriter;
@@ -19,6 +19,7 @@ public class Book {
 		this.renting = renting;
 		this.returnDate = returnDate;
 		this.creationDate = creationDate;
+		this.rentUserId = rentUserId;
 	}
 
 	public int getBookId() {
