@@ -105,4 +105,9 @@ public class Book {
 				+ " | 글쓴이: " + bookWriter + " | 출판사: " + bookPublisher + " | 대여: " + renting;
 	}
 	
+	public String toRentBook() {
+		return "책번호: " + bookId + " | 책이름: " + bookName 
+				+ " | 글쓴이: " + bookWriter + " | 출판사: " + bookPublisher;
+	}
+	
 }
