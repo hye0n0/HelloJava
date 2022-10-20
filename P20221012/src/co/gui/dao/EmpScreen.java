@@ -86,6 +86,13 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 	// DB조회 후 table 결과 반영
 	public void searchData() {
 		DefaultTableModel model =  (DefaultTableModel) table.getModel();
+		
+		// 화면에 조회된 결과가 있으면..clear
+		int allCnt = model.getRowCount();
+		for(int i=0;i<allCnt; i++) {
+			model.removeRow(0);
+		}
+		
 		String[] record = new String[6];
 		list = dao.empList(new EmployeeVO(0, null, null, null, null, null));
 		
@@ -102,15 +109,45 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 		model.addRow(fields);
 	}
 	
+	// 삭제위한 메소드
+	public void removeData() {
+		int selectedRow = table.getSelectedRow(); // 선택된 row반환
+		if(selectedRow < 0) {
+			return; // 메소드
+		}
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		int empId = Integer.parseInt((String) model.getValueAt(selectedRow, 0));
+		
+		dao.deleteEmp(empId);
+		
+		model.removeRow(selectedRow);  // 화면삭제
+	}
+	
+	// 등록
+	public void addData() {
+		String[] records = new String[6];
+		
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		for(int i=0;i<fields.length;i++) {
+			records[i] = fields[i].getText();
+		}
+		EmployeeVO emp = new EmployeeVO(0, records[1], records[2], records[3], records[4], records[5]);
+		dao.insertEmp(emp);
+		records[0] = String.valueOf(emp.getEmployeeId());
+		
+		model.addRow(records);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// addBtn, delBtn, findBtn...
 		Object src = e.getSource();
 
 		if (src == addBtn) {
-
+			addData();
 		} else if (src == delBtn) {
-
+			removeData();
+			
 		} else if (src == findBtn) {
 			searchData();
 		} else if (src == initBtn) {
@@ -122,12 +159,7 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// table 이벤트
-		int selectedRow = table.getSelectedRow(); // 선택된 row반환
 		
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		int empId = Integer.parseInt((String) model.getValueAt(selectedRow, 0));
-		
-		dao.deleteEmp(empId);
 		
 	}
 	

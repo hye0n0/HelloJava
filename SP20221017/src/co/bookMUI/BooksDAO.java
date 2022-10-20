@@ -1,4 +1,4 @@
-package co.bookmanagment;
+package co.bookMUI;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -252,13 +252,12 @@ public class BooksDAO extends DAO {
 	public void rentBook(Book book) {
 		String sql1 = "select* from members where user_id = ? ";
 		String sql2 = "select* from books where book_id = ? ";
-		String sql3 = "select count(*) count from books where rent_userid = ? ";
-		String sql4 = "update books " + "set renting = '불가능', return_date = sysdate + 7 ,rent_userid = ? "
+		String sql3 = "update books " + "set renting = '불가능', return_date = sysdate + 7 ,rent_userid = ? "
 				+ "where book_id = ? ";
 		conn = getConnect();
 		try {
-			psmt = conn.prepareStatement(sql2);
-			psmt.setInt(1, book.getBookId());
+			psmt = conn.prepareStatement(sql1);
+			psmt.setString(1, book.getRentUserId());
 			rs = psmt.executeQuery();
 			if (rs.next()) {
 				psmt = conn.prepareStatement(sql2);
@@ -271,20 +270,10 @@ public class BooksDAO extends DAO {
 					} else {
 						psmt = conn.prepareStatement(sql3);
 						psmt.setString(1, book.getRentUserId());
-						rs = psmt.executeQuery();
-						if (rs.next()) {
-							if(rs.getInt("count") < 5 ) {
-							psmt = conn.prepareStatement(sql4);
-							psmt.setString(1, book.getRentUserId());
-							psmt.setInt(2, book.getBookId());
-							int r = psmt.executeUpdate();
-							System.out.println();
-							System.out.println("<<" + r + "건 대여되었습니다>>");
-							}else if(rs.getInt("count") == 5){
-								System.out.println("<<이미 5권을 대여중입니다>>");
-							}
-						}
-						
+						psmt.setInt(2, book.getBookId());
+						int r = psmt.executeUpdate();
+						System.out.println();
+						System.out.println("<<" + r + "건 대여되었습니다>>");
 					}
 				}else {
 					System.out.println();
@@ -765,7 +754,7 @@ public class BooksDAO extends DAO {
 	}
 
 	// 질문 삭제
-	public boolean deleteQue(Question que) {
+	public void deleteQue(Question que) {
 		String sql1 = "select* from questions where que_id = ? ";
 		String sql2 = "select* from answers where que_id = ? ";
 		String sql3 = "delete from questions where que_id = ? ";
@@ -789,7 +778,6 @@ public class BooksDAO extends DAO {
 					int r = psmt.executeUpdate();
 					System.out.println();
 					System.out.println("<<" + r + "건 삭제되었습니다>>");
-					return true;
 				}
 			} else {
 				System.out.println();
@@ -800,7 +788,6 @@ public class BooksDAO extends DAO {
 		} finally {
 			disconnect();
 		}
-		return false;
 	}
 
 	// 질문 전체목록
