@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import co.edu.emp.EmpDAO;
 import co.edu.emp.EmployeeVO;
 
-@WebServlet({ "/addMemberSevlet", "/addMember" })
+@WebServlet({ "/addMemberServlet", "/addMember" })
 public class AddMemberServ extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -20,6 +20,7 @@ public class AddMemberServ extends HttpServlet {
 		super();
 	}
 
+	// get 방식의 요청
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
@@ -55,10 +56,14 @@ public class AddMemberServ extends HttpServlet {
 		
 		
 	}
-
+	
+	// post 방식의 요청 시 실행
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		response.setContentType("text/html;charset=UTF-8");
+//		doGet(request, response);
+		PrintWriter out = response.getWriter(); // 사용자의 브라우저(출력스트림 생성)
+		out.print("<h3>Post 방식의 요청</h3>");
 	}
 
 }
