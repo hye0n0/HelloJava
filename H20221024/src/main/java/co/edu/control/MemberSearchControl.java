@@ -31,7 +31,6 @@ public class MemberSearchControl implements Command {
 		
 		MemberService service = new MemberServiceImpl();
 		MemberVO vo = service.findMember(id);
-		
 		// 요청정보의 속성에 vo값을 담아서 넘기기
 		req.setAttribute("memberInfo", vo);
 		

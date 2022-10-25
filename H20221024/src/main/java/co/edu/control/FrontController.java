@@ -17,6 +17,7 @@ public class FrontController extends HttpServlet{
 	
 	@Override
 	public void init() throws ServletException {
+		
 		control.put("/main.do", new MainControl());
 		// 추가기능
 		control.put("/memberAddForm.do", new MemberAddForm());
@@ -32,6 +33,11 @@ public class FrontController extends HttpServlet{
 		control.put("/memberSearch.do", new MemberSearchControl());
 		// 목록
 		control.put("/memberList.do", new MemberListControl());
+		// 로그인
+		control.put("/LoginForm.do", new LoginForm());
+		control.put("/Login.do", new LoginControl());
+		
+		control.put("/LoginOut.do", new LoginOutControl());
 	}
 	
 	@Override

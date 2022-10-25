@@ -9,17 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import co.edu.common.Command;
 import co.edu.common.HttpUtil;
 
-public class MemberSearchFrom implements Command {
+public class LoginForm implements Command {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 화면 오픈
-		String id = req.getParameter("id");
 		
-		req.setAttribute("sid", id);
 		
-		HttpUtil.forward(req, resp, "memberView/memberSearch.jsp");
-
+		HttpUtil.forward(req, resp, "memberLog/loginForm.jsp");
 	}
 
 }

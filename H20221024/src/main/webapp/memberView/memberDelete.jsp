@@ -14,14 +14,17 @@
 		ID: <input type="text" name="id"><br>
 		<input type="submit" value="조회">
 	</form>
-	<% 
-		MemberVO result = (MemberVO) request.getAttribute("memberinfo");
-	%>
 	<h3>회원삭제페이지</h3>
-	<% if (result != null ) { %>
+	<% 
+		MemberVO result = (MemberVO) request.getAttribute("memberInfo"); 
+		String id = (String) session.getAttribute("id");
+	%>
+	<% if (result != null) { %>
 	<form action="./memberRemove.do" method="post">
 		ID: <input type="text" name="id" value="<%=result.getId() %>" readonly ><br>
+		<% if(id.equals(result.getId())){ %>
 		<input type="submit" value="삭제">
+		<%} %>
 	</form>
 	<% } else { %>
 		<p>조회된 결과가 없습니다</p>

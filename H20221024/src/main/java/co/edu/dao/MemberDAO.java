@@ -8,7 +8,7 @@ import co.edu.common.DAO;
 import co.edu.vo.MemberVO;
 
 public class MemberDAO extends DAO {
-	
+
 	// 생성, 수정, 삭제, 한건조회, 목록...
 	public void memberInsert(MemberVO vo) {
 		String sql = "insert into members (id,passwd,name,email) " + " values(?, ?, ?, ?)";
@@ -32,21 +32,25 @@ public class MemberDAO extends DAO {
 	public MemberVO memberSearch(String id) {
 		String sql = "select* from members where id = ? ";
 		conn = getConnect();
-		MemberVO vo = null;
+		MemberVO vo = new MemberVO();
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
 			rs = psmt.executeQuery();
 			if (rs.next()) {
-				vo = new MemberVO(rs.getString("id"), rs.getString("passwd"),
-						rs.getString("name"), rs.getString("email"));
+				vo.setId(rs.getString("id"));
+				vo.setPasswd(rs.getString("passwd"));
+				vo.setName(rs.getString("name"));
+				vo.setEmail(rs.getString("email"));
+				vo.setResposibility(rs.getString("resposibility"));
+				return vo;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
 		}
-		return vo;
+		return null;
 	}
 
 	public void memberUpdate(MemberVO vo) {
@@ -91,8 +95,13 @@ public class MemberDAO extends DAO {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
 			while (rs.next()) {
-				list.add(new MemberVO(rs.getString("id"), rs.getString("passwd"),
-						rs.getString("name"), rs.getString("email")));
+				MemberVO vo = new MemberVO();
+				vo.setId(rs.getString("id"));
+				vo.setPasswd(rs.getString("passwd"));
+				vo.setName(rs.getString("name"));
+				vo.setEmail(rs.getString("email"));
+				vo.setResposibility(rs.getString("resposibility"));
+				list.add(vo);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -100,6 +109,33 @@ public class MemberDAO extends DAO {
 			disconnect();
 		}
 		return list;
+	}
+
+	// String id, String passwd => MemberVO
+	public MemberVO login(String id, String passwd) {
+		conn = getConnect();
+		String sql = "select* from members where id = ? ";
+		MemberVO vo = new MemberVO();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				if(rs.getString("passwd").equals(passwd)) {
+					vo.setId(rs.getString("id"));
+					vo.setPasswd(rs.getString("passwd"));
+					vo.setName(rs.getString("name"));
+					vo.setEmail(rs.getString("email"));
+					vo.setResposibility(rs.getString("resposibility"));
+					return vo;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return null;
 	}
 
 }

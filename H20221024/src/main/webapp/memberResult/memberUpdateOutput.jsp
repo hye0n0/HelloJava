@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h3>회원정보수정완료!</h3>
+	<%@ include file="home.jsp" %>
 </body>
 </html>
