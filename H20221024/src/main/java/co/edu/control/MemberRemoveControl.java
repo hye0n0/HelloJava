@@ -10,27 +10,18 @@ import co.edu.common.Command;
 import co.edu.common.HttpUtil;
 import co.edu.service.MemberService;
 import co.edu.service.MemberServiceImpl;
-import co.edu.vo.MemberVO;
 
-public class memberModifyControl implements Command {
+public class MemberRemoveControl implements Command {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		// 사용자입력정보를 parameter 읽어와야된다
 		String id = req.getParameter("id");
-		String passwd = req.getParameter("passwd");
-		String name = req.getParameter("name");
-		String mail = req.getParameter("mail");
 		
-		MemberVO vo = new MemberVO(id, passwd, name, mail);
-		
-		// DB 입력처리
 		MemberService service = new MemberServiceImpl();
-		service.modifyMember(vo);
+		service.removeMember(id);
 		
-		// 처리된 결과를 페이지
-		HttpUtil.forward(req, resp, "memberResult/memberUpdateOutput.jsp");
+		HttpUtil.forward(req, resp, "memberResult/memberDeleteOutput.jsp");
 	}
 
 }

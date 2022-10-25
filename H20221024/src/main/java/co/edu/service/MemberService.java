@@ -9,6 +9,6 @@ public interface MemberService {
 	public void addMember(MemberVO vo); // 추가
 	public void modifyMember(MemberVO vo); // 수정
 	public void removeMember(String id); // 삭제
-	public void findMember(String id); // 한건조회
+	public MemberVO findMember(String id); // 한건조회
 	public List<MemberVO> memberList(); // 전체목록
 }

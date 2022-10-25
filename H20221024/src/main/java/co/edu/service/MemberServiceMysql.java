@@ -25,9 +25,9 @@ public class MemberServiceMysql implements MemberService{
 	}
 
 	@Override
-	public void findMember(String id) {
+	public MemberVO findMember(String id) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override

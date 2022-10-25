@@ -1,5 +1,3 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	request.getRequestDispatcher("./main.do").forward(request, response);
-%>ㄴ
+<a href="/index.jsp">처음페이지로</a>

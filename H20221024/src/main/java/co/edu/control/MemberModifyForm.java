@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import co.edu.common.Command;
 import co.edu.common.HttpUtil;
 
-public class memberAddForm implements Command {
+public class MemberModifyForm implements Command {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpUtil.forward(req, resp, "memberView/memberInsert.jsp");
+		HttpUtil.forward(req, resp, "memberView/memberUpdate.jsp");
 	}
 
 }
