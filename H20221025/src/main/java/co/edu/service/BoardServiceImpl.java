@@ -11,20 +11,19 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public BoardVO insertBoard(BoardVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.insertBoard(vo);
 	}
 
 	@Override
 	public List<BoardVO> getList(BoardVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.boardList(vo);
 	}
 
 	@Override
-	public BoardVO findBoard(String id) {
+	public BoardVO findBoard(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.searchBoard(id);
 	}
 
 	@Override
@@ -37,6 +36,11 @@ public class BoardServiceImpl implements BoardService{
 	public boolean deleteBoard(int boardNo) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<BoardVO> pageList(int page) {
+		return dao.pageList(page);
 	}
 
 }
