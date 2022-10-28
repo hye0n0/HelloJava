@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import co.edu.board.BoardVO;
 import co.edu.common.Control;
 import co.edu.common.HttpUtil;
 import co.edu.service.BoardService;
 import co.edu.service.BoardServiceImpl;
+import co.edu.vo.BoardVO;
 
 public class WriteBoard implements Control {
 

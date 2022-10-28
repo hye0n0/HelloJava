@@ -3,9 +3,19 @@ package co.edu.dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-import co.edu.board.BoardVO;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+
 import co.edu.common.DAO;
+import co.edu.vo.BoardVO;
+import co.edu.vo.MemberVO;
 
 public class BoardDAO extends DAO {
 	// 입력,조회,수정,삭제...
@@ -201,5 +211,178 @@ public class BoardDAO extends DAO {
 			disconnect();
 		}
 		return null;
+	}
+	
+	public void memberInsert(MemberVO vo) {
+		String sql = "insert into members (id,passwd,name,email,resposibility) " + " values(?, ?, ?, ?, 'user')";
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getId());
+			psmt.setString(2, vo.getPasswd());
+			psmt.setString(3, vo.getName());
+			psmt.setString(4, vo.getEmail());
+			int r = psmt.executeUpdate();
+			System.out.println();
+			System.out.println("<<" + r + "건 입력되었습니다>>");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+	
+	public MemberVO login(String id, String passwd) {
+		conn = getConnect();
+		String sql = "select* from members where id = ? ";
+		MemberVO vo = new MemberVO();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				if(rs.getString("passwd").equals(passwd)) {
+					vo.setId(rs.getString("id"));
+					vo.setPasswd(rs.getString("passwd"));
+					vo.setName(rs.getString("name"));
+					vo.setEmail(rs.getString("email"));
+					vo.setResposibility(rs.getString("resposibility"));
+					return vo;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return null;
+	}
+	
+	// 회원목록출력하기 for member/MemberList.jsp 에서 jstl 이용
+	public List<MemberVO> memberList(){
+		List<MemberVO> list = new ArrayList<>();
+		conn = getConnect();
+		String sql = "select * from members";
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				MemberVO vo = new MemberVO();
+				vo.setId(rs.getString("id"));
+				vo.setPasswd(rs.getString("passwd"));
+				vo.setName(rs.getString("name"));
+				vo.setEmail(rs.getString("email"));
+				vo.setResposibility(rs.getString("resposibility"));
+				list.add(vo);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return null;
+	}
+	
+	public MemberVO searchMember(String id) {
+		conn = getConnect();
+		String sql = "select * from members where id = ? ";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				MemberVO vo = new MemberVO();
+				vo.setId(rs.getString("id"));
+				vo.setPasswd(rs.getString("passwd"));
+				vo.setName(rs.getString("name"));
+				vo.setEmail(rs.getString("email"));
+				vo.setResposibility(rs.getString("resposibility"));
+				return vo;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return null;
+	}
+	
+	public boolean updateMember(MemberVO vo) {
+		// 처리건수가 0이면 false;
+		conn = getConnect();
+		String sql = "update members " + "set passwd = ? " + "where id = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getPasswd());
+			psmt.setString(2, vo.getId());
+			int r = psmt.executeUpdate();
+			if (r > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+
+		return false;
+	}
+
+	
+	public String sendMail(String from, String to, String subject, String content) {
+		String _email = "hyeon97101@gmail.com";
+		String _password = "tgmsefzsrkverwee";
+
+		System.out.println("Start JavaMail API Test ~!");
+
+//		String subject = "Hello JavaMail API Test";
+		String fromMail = from;// "cholee@yedam.ac";
+		String fromName = "Charles";
+		String toMail = to;// "leadon@naver.com"; // 콤마(,) 나열 가능
+
+		// mail contents
+		StringBuffer contents = new StringBuffer();
+		contents.append("<h1>Hello</h1>\n");
+		contents.append("<p>Nice to meet you ~! :)</p><br>");
+
+		// mail properties
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com"); // use Gmail
+		props.put("mail.smtp.port", "587"); // set port
+
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true"); // use TLS
+		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+		Session mailSession = Session.getInstance(props, new javax.mail.Authenticator() { // set authenticator
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(_email, _password);
+			}
+		});
+
+		try {
+			MimeMessage message = new MimeMessage(mailSession);
+
+			message.setFrom(new InternetAddress(fromMail, MimeUtility.encodeText(fromName, "UTF-8", "B"))); // 한글의 경우
+																											// encoding
+																											// 필요
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toMail));
+			message.setSubject(subject);
+			message.setContent(content, "text/html;charset=UTF-8"); // 내용 설정 (HTML 형식)
+			message.setSentDate(new java.util.Date());
+
+			Transport t = mailSession.getTransport("smtp");
+			t.connect(_email, _password);
+			t.sendMessage(message, message.getAllRecipients());
+			t.close();
+
+			System.out.println("Done Done ~!");
+			return "Success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Fail";
+		}
 	}
 }

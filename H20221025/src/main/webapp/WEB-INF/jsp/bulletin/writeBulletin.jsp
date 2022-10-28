@@ -1,12 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>게시글 등록</title>
-</head>
-<body>
 	<h3>게시글 등록</h3>
 	<form action="./writeBoard.do" method="post" enctype="multipart/form-data">
 		제목: <input type="text" name="title"><br>
@@ -17,5 +10,3 @@
 		<input type="submit" value="글등록"><br>
 		<input type="reset" value="초기화"><br>
 	</form>
-</body>
-</html>

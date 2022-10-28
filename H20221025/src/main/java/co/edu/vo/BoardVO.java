@@ -1,4 +1,4 @@
-package co.edu.board;
+package co.edu.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

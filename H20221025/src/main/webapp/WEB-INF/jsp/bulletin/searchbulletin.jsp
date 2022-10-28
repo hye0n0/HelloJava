@@ -1,30 +1,44 @@
-<%@page import="co.edu.board.BoardVO"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>게시글 상세보기</title>
+	<meta charset="UTF-8">
+	<title>게시글 상세보기</title>
 </head>
 <body>
-	<%
-		BoardVO result = (BoardVO) request.getAttribute("board");
-	%>
 	<table border="1">
 		<tr>
-			<th>글번호</th><td><%=result.getBoardNo() %></td><th>작성자</th><td><%=result.getWriter() %></td>
+			<th>글번호</th>
+			<td>
+				${board.title }
+			</td>
+			<th>작성자</th>
+			<td>
+				${board.writer }
+			</td>
 		</tr>
 		<tr>
-			<th>제목</th><td><%=result.getTitle() %></td>
+			<th>제목</th>
+			<td>
+				${board.title }
+			</td>
 		</tr>
 		<tr>
-			<td colspan='2'><textarea rows= 5 cols=30>
-			<%=result.getContent() %>
-			</textarea></td>
+			<td ><textarea rows=5 cols=50 style="text-align:left">${board.content }</textarea></td>
+			<td>
+				<img src="upload/${board.image }" alt="" style="width:100px">
+			</td>
 		</tr>
 		<tr>
-			<th>작성일자</th><td><%=result.getWriteDate() %></td><th>조회수</th><td><%=result.getClickCnt() %></td>
+			<th>작성일자</th>
+			<td>
+				${board.writeDate }
+			</td>
+			<th>조회수</th>
+			<td>
+				${board.clickCnt }
+			</td>
 		</tr>
 	</table>
 </body>
