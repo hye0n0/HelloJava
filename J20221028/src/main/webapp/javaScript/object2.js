@@ -49,11 +49,13 @@ function makeList(obj){
 let tabTag = document.createElement('table');
 let trTag = document.createElement('tr');
 let thTag = document.createElement('th');
+let ths = '';
 for (field of fields){
 	let txt = document.createTextNode(field);
-	str += thTag.appendChild(txt);
+	ths += thTag.appendChild(txt);
 }
-trTag.appendChild(str);
+trTag.appendChild(ths);
+tabTag.appendChild(trTag);
 
 for (row of result){
 	tabTag.appendChild(makeList(row));
@@ -61,10 +63,11 @@ for (row of result){
 
 document.getElementById('show').appendChild(tabTag);
 
+let tds = '';
 function makeTr(obj){
 	let tdTag = document.createElement('td');
-	let str = "";
-	
+	tds += tdTag.appendChild(obj);
+	trTag.appendChild(tds);
 
 	return trTag;
 }

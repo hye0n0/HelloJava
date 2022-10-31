@@ -3,15 +3,27 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<script src="javaScript/object2.js"></script>
+	<script src="javaScript/dom2.js"></script>
 </head>
 <body>
+	<form action="">
+		id: <input type="text" id="id"><br>
+		first_name: <input type="text" id="fname"><br>
+		email: <input type="text" id="email"><br>	
+		salary: <input type="text" id="salary"><br>	
+		gender: <select id="gender" autofocus="">
+					<option value="Male">남</option>
+					<option value="Female">여</option>
+				</select><br>	
+		<button type="button">추가</button>
+		<button type="button">수정</button>
+		<button type="button">선택삭제</button>
+	</form>
 	<div id="show">
-		<!-- <table border = '1'>
-			<tr>
-				<td>1</td><td>first_name</td><td>email</td><td>salary</td>
-			</tr>
-		</table> -->
+		<!--  <table border='1'>
+		<thead>id, firstname, lastname, email, salary</thead>
+		<tbody></tbody>
+		</table>-->
 	</div>
 </body>
 </html>
