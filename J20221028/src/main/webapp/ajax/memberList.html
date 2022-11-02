@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>memberList.html</title>
+</head>
+<body>
+	<h3>Ajax Get 방식 호출</h3>
+	<h3>회원등록페이지</h3>
+	<form name="submitFrm" action="" method="post">
+		id: <input type="text" id="id"><br>
+		pass: <input type="text" id="passwd"><br>
+		email: <input type="email" id="email"><br>
+		name: <input type="text" id="name"><br>
+		<input type="submit" value="등록">
+	</form>
+	<div id="show">
+		<table border="1">
+			<thead>
+				<tr><th>아이디</th><th>이름</th><th>이메일</th><th>권한</th><th>삭제</th></tr>
+			</thead>
+			<tbody id="list">
+			</tbody>
+		</table>
+	</div>
+	
+	<script>
+		// ajax 호출
+		document.addEventListener('DOMContentLoaded', loadData);
+		
+		function loadData(){
+			let ajax = new XMLHttpRequest();
+			ajax.open('get', '../MemberListServlet'); // 요청페이지 지정
+			ajax.send(); // 요청
+			ajax.onload = loadCallback; // evet 를 this 객체
+		}
+		
+		// 데이터 입력
+		submitFrm.onsubmit = addCallback;
+			
+		function addCallback(){
+			event.preventDefault();
+	
+			let id = document.getElementById('id').value;
+			let pw = document.getElementById('passwd').value;
+			let em = document.getElementById('email').value;
+			let nm = document.getElementById('name').value;
+			let check = id && pw && em && nm;
+			if(!check){
+				alert('필수항목입니다')
+				return false;
+			}
+			let data = 'id='+id+'&passwd='+pw+'&name='+nm+'&email='+em+'&job=insert';
+			let ajax = new XMLHttpRequest();
+			ajax.open('post', '../MemberListServlet');
+			ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			ajax.send(data);
+			ajax.onload = loadDataCallback;
+		}
+		// 입력된 데이터 화면에 출력
+		function loadDataCallback(){
+			console.log(this.responseText);
+			let obj = JSON.parse(this.responseText);
+			document.querySelector('#list').appendChild(makeTr(obj));
+		}
+		
+		
+		// ajax 객체에 로드이벤트 실행시 발생 할 때 실행할 콜백함수
+		function loadCallback() {
+			//console.log(ajax.responseText);
+			let data = JSON.parse(this.responseText);
+			data.forEach(row => {
+				document.querySelector('#list').appendChild(makeTr(row));
+			});
+		}
+		// data 한건을 tr로 생성해주는 함수
+		function makeTr(obj){
+			let tr = document.createElement('tr');
+			tr.setAttribute('id','tr_' + obj.id);
+			for (let field in obj){
+				if(field == "passwd"){
+					continue;
+				}
+				let td = document.createElement('td');
+				let txt = document.createTextNode(obj[field]);
+				td.append(txt);
+				tr.append(td);
+			}
+			//삭제버튼 추가
+			let btn = document.createElement('button');
+			btn.addEventListener('click', deleteFnc);
+			let td = document.createElement('td');
+			let txt = document.createTextNode('삭제');
+	        btn.appendChild(txt);
+	        td.appendChild(btn);
+	        tr.appendChild(td);
+			return tr;
+		}
+		
+		function deleteFnc(){
+			let oid = this.parentElement.parentElement.getAttribute('id');
+			let id = oid.substring('tr_'.length);
+			// 서블릿호출 db삭제
+			let delAjax = new XMLHttpRequest();
+			delAjax.open('post', '../MemberListServlet');
+			delAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			delAjax.send('id='+id+'&job=delete');
+			delAjax.onload = function() {
+				console.log(delAjax.responseText);
+				let result = delAjax.responseText
+				if(result == 'success') {
+					document.getElementById(oid).remove();
+				}else if(result == 'fail'){
+					alert('처리중 에러!!');
+				}
+			}
+			//화면삭제
+        }
+	</script>
+</body>
+</html>

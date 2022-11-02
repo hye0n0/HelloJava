@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+
+<body>
+    <form>
+        시도 <input type="text" id="sido">
+        <button type="button">찾기</button>
+    </form>
+    <div id="show">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>센터id</th>
+                    <th>센터명</th>
+                    <th>연락처</th>
+                </tr>
+            </thead>
+            <tbody id="list">
+            </tbody>
+        </table>
+    </div>
+    <script>
+        let url =
+            "https://api.odcloud.kr/api/15077586/v1/centers?page=1&perPage=284&serviceKey=Wc9uruHt6uuL10Q5X5t0ZtLPTEozovfGTJZMPeVxt1jqmStaKp6WJDFsofM60bgoo2W9w6G%2Fqk7S%2FOT4FJD9vA%3D%3D";
+
+        let allData;
+
+        fetch(url)
+            .then(result => result.json())
+            .then(showList)
+            .catch(err => {
+                console.log(err);
+            });
+
+        function showList(result) {
+            allData = result.data;
+            console.log(result); // totalCount, data, page, current...
+            result.data.forEach(center => document.querySelector('#list').append(makeTr(center)));
+        }
+
+        function makeTr(obj) {
+            let fields = ['id', 'centerName', 'phoneNumber']
+            let tr = document.createElement('tr');
+            tr.setAttribute('id', 'tr_' + obj.id);
+            for (let field of fields) {
+                let td = document.createElement('td');
+                let txt = document.createTextNode(obj[field]);
+                td.append(txt);
+                tr.append(td);
+            }
+            return tr;
+        }
+
+        document.querySelector('button[type="button"]').addEventListener('click', searchSido);
+
+        function searchSido() {
+            document.querySelectorAll('#list>tr').forEach(tr=>tr.remove());
+
+            let sSido = document.getElementById('sido').value;
+
+            for(let row of allData){
+                if (row.sido == sSido) {
+                    document.querySelector('#list').append(makeTr(row))
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

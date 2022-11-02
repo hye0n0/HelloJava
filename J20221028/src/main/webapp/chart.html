@@ -1,0 +1,44 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script type="text/javascript">
+    let aryData = []; // ['부서명', '부서인원(명)'], [Account, 3]
+
+    fetch('./EmpByDeptServlet')
+      .then(result => result.json())
+      .then(loadCallBack)
+      .catch(err => console.error(err));
+
+    function loadCallBack(result = {}) {
+      console.log(result);
+      aryData.push(['부서명', '부서인원']);
+
+      for(let dept in result) {
+        aryData.push([dept, result[dept]]);
+      }
+
+      google.charts.load('current', {
+        'packages': ['corechart']
+      });
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(aryData);
+        var options = {
+          title: '부서별 인원 현황'
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="piechart" style="width: 900px; height: 500px;"></div>
+</body>
+
+</html>

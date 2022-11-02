@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>memberAdd.html</title>
+</head>
+<body>
+	<h3>회원등록페이지</h3>
+	<form name="submitFrm" action="" method="post">
+		id: <input type="text" id="id"><br>
+		pass: <input type="text" id="passwd"><br>
+		email: <input type="email" id="email"><br>
+		name: <input type="text" id="name"><br>
+		<input type="submit" value="등록">
+	</form>
+	<form name="secondFrm" action="">
+	
+	</form>
+	<script>
+		document.forms.submitFrm.action = "../MemberListServlet";
+		//submitFrm.method = 'get';
+		document.forms.submitFrm.onsubmit = function(e){
+			e.preventDefault();
+
+			let id = document.getElementById('id').value;
+			let pw = document.getElementById('passwd').value;
+			let em = document.getElementById('email').value;
+			let nm = document.getElementById('name').value;
+			let check = id && pw && em && nm;
+			if(!check){
+				alert('필수항목입니다')
+				return false;
+			}
+			let data = 'id='+id+'&passwd='+pw+'&name='+nm+'&email='+em;
+			let ajax = new XMLHttpRequest();
+			ajax.open('post', '../MemberListServlet');
+			ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			ajax.send(data);
+			ajax.onload = function(){
+				console.log(ajax.responseText);
+				let data = JSON.parse(ajax.responseText);
+				let pTag = document.createElement('p');
+				pTag.textContent = '아이디: ' + data.id //
+								+ ', 이름: ' + data.name;
+				secondFrm.after(pTag);
+			}
+		}
+	</script>
+</body>
+</html>

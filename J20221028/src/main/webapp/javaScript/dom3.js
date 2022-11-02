@@ -34,7 +34,7 @@
 			thead.append(tr);
 			return thead;
 		},
-		makeBody: function(val){
+		makeBody: function(){
 			let tbody = document.createElement('tbody');
 			this.data.forEach(val => {
 				let tr = document.createElement('tr');
@@ -88,6 +88,8 @@
 			document.getElementsByTagName('body')[0].append(this.makeTable());
 		}
 	}
+	
+	
 	
 	// 데이터 추가 
 	tableObject.addData({id: 'user4', name: '황성홍', email: 'hwang@email'});
