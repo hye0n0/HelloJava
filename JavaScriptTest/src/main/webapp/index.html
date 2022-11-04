@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="css/style.css" rel="stylesheet">
+<script src="javaScript/books.js"></script>
+</head>
+<body>
+	<h3>도서목록 페이지</h3>
+	<hr>
+	<form action="index.html" onsubmit="insertBook();">
+		<div id="input_book">
+			<label for="i_bookCode">도서코드</label><input type="text" id="i_bookCode"><br>
+			<label for="i_bookName">도서명</label><input type="text" id="i_bookName"><br>
+			<label for="i_author">저자</label><input type="text" id="i_author"><br>
+			<label for="i_press">출판사</label><input type="text" id="i_press"><br>
+			<label for="i_price">금액</label><input type="text" id="i_price"><br>
+		</div>
+		<div id="btn">
+			<input type="submit" value="저장"><br>
+			<button type="button">선택삭제</button>
+		</div>
+	</form>
+	<div id="books">
+	</div>
+</body>
+</html>

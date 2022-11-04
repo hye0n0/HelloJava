@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        .container{
+            width: 400px;
+            margin: auto;
+        }
+        form{
+            text-align: center;
+            background-color: rgb(238, 252, 252);
+        }
+        table{
+            border-collapse:collapse;
+        }
+        td{
+            text-align: center;
+            background-color: #fff;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('button[type="button"]').addEventListener('click', addList);
+
+            function addList() {
+                // 리스트 생성
+                let title = document.getElementById('title').value;
+                let tr = document.createElement('tr');
+                let ts = ['', title, '✖'];
+                ts.forEach(t => {
+                    let td = document.createElement('td');
+                    td.textContent = t;
+                    tr.append(td);
+                });
+                document.getElementById('list').append(tr);
+                document.getElementById('title').value = '';
+
+                // 리스트 누르면 체크 표시
+                document.querySelector('#list>tr').children[1].addEventListener('click', checkList);
+
+                function checkList() {
+                    let check = this.parentElement.children[0].textContent;
+                    console.log(check);
+                    if (check) {
+                        this.parentElement.children[0].textContent = '';
+                        this.parentElement.children[1].style = 'text-decoration: none';
+                    } else {
+                        this.parentElement.children[0].textContent = '✔';
+                        this.parentElement.children[1].style = 'text-decoration: line-through';
+                    }
+                }
+
+                // 리스트 삭제
+                document.querySelector('#list>tr').children[2].addEventListener('click', delList);
+
+                function delList() {
+                    this.parentElement.remove();
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <input type="text" id="title">
+            <button type="button">Add</button>
+        </form>
+        <div id="show">
+            <table id="list">
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

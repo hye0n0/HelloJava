@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        ul{
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+        }
+        li{
+            float: left;
+            padding: 0 10%;
+        }
+        #show{
+            text-align: center;
+            width: 500px;
+            height: 400px;
+        }
+        table{
+            width: 100%;
+            height: 100%;
+        }
+        th{
+            background-color: #ddd;
+        }
+        td{
+            vertical-align: top;
+            text-align: left;
+            background-color: #eee;
+        }
+    </style>
+    <script>
+        let obj = {
+            id: 'hong',
+            age: 20
+        }
+        obj = {} // new object();
+        let ary = [] // new Array();
+        let today = new Date();
+
+        document.addEventListener('DOMContentLoaded', function(){
+            today = new Date(2022,11,0);
+            let ul = document.createElement('ul');
+            let thisMonth = today.getMonth();
+            let header = ['◁◀','◼◽' + (thisMonth+1) + '월◽◼','▶▷'];;
+            header.forEach(hd => {
+                let li = document.createElement('li');
+                let h3 = document.createElement('h3');
+                h3.textContent = hd;
+                li.append(h3);
+                ul.append(li);
+            });
+            document.getElementById('show').append(ul);
+            document.querySelectorAll('#show>ul>li')[0].addEventListener('click',lastMonth);
+            document.querySelectorAll('#show>ul>li')[2].addEventListener('click',nextMonth);
+
+            // 이전 달
+            function lastMonth(){
+
+            }
+
+            // 다음 달
+            function nextMonth(){
+
+            }
+
+            // 달력
+            makeCal();
+            
+        });
+
+        function makeCal(){
+            // document.querySelector('#show>table').remove()
+            let thisDay = today.getDay();
+            console.log(thisDay);
+            let lastDate = today.getDate(0);
+            console.log(lastDate);
+            let table = document.createElement('table');
+
+            let thead = document.createElement('thead');
+            let tr = document.createElement('tr');
+            let Day = ['월', '화', '수', '목', '금', '토', '일']
+            thead.append(tr);
+            Day.forEach(day => {
+                console.log(day);
+                let th = document.createElement('th');
+                th.textContent = day;
+                tr.append(th);
+            });
+            table.append(thead);
+            let tbody = document.createElement('tbody');
+            tr = document.createElement('tr');
+            tbody.append(tr);
+
+            // 요일 지정
+            for(let i=1; i<thisDay; i++){
+                let td = document.createElement('td'); 
+                tr.append(td);
+            }
+            for (let i=1; i<=lastDate; i++){
+                let td = document.createElement('td');
+                td.textContent = i;
+                tr.append(td);
+                if((i+thisDay-1)%7==0){
+                    tr = document.createElement('tr');
+                    tbody.append(tr);
+                }
+                
+            }
+            table.append(tbody);
+            document.getElementById('show').append(table);
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <div id="show"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+    div {
+        display: inline-block;
+        width: 500px;
+        background-color: green;
+    }
+    p{
+        display: inline-block;
+        width: 100px;
+        background-color: yellow;
+        padding: 5px;
+        margin: 4px;
+    }
+</style>
+</head>
+<body>
+    단어입력: <input type="text" id="word"><button id="btn">입력</button><br>
+    <div id="wordlist">
+
+    </div>
+    <h1 id="timer"></h1>
+    <script>
+        let words = `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel, debitis numquam rerum placeat iure inventore nobis. Eius culpa, porro at, minus soluta iure modi ducimus nemo dolorum provident commodi sequi.`;
+        words = words.replaceAll(',','');
+        words = words.replaceAll('.','');
+        let wordAry = words.split(' ');
+        wordAry.forEach(word => {
+            let pTag = document.createElement('p');
+            pTag.textContent = word;
+            document.getElementById('wordlist').append(pTag);
+        })
+    document.getElementById('btn').addEventListener('click',delWord);
+
+    function delWord() {
+        let sWord = document.getElementById('word').value;
+        document.querySelectorAll('#wordlist>p').forEach(p => {
+            let word = p.textContent
+            if(word == sWord){
+                p.remove();
+                document.getElementById('word').value = '';
+            }
+
+        })
+    }
+    
+    Date.prototype.timeFormater = function() {
+        return ("0" + this.getHours()).slice(-2) + ":" + //
+            ("0" + this.getMinutes()).slice(-2) + ":" + //
+            ("0" + this.getSeconds()).slice(-2);
+    }
+    
+    String.prototype.ltrim = function(){
+
+    }
+
+    let time = 100; // 초
+
+    setTimeout(function(){}, 5000);
+
+    let timer1 = setInterval(() => {
+        // 100초 =>
+        time--;
+        document.getElementById('timer').textContent = time;
+        let items = document.querySelectorAll('#wordlist>p')
+
+        if (!items.length && time){
+            alert('success');
+            clearInterval(timer1); // setInterval을 종료하는  clearInterval(변수)
+        } else if(!time){
+            alert('fail');
+            clearInterval(timer1);
+        }
+        // let timer = new Date();
+        // document.getElementById('timer').textContent = timer.timeFormater();
+    },1000)
+    document.getElementById('word').focus();
+    </script>
+</body>
+</html>
